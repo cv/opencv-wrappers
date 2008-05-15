@@ -1,18 +1,40 @@
 from wrappers import *
 
-camera = Camera(CV_CAP_ANY)
-window = Window()
-initial = False
+class FingerTracking:
+  
+  def __init__(self):
+    self.camera = Camera(CV_CAP_ANY)
+    self.window = Window()
+    self.initial = False
+    self.threshold = 50
+    self.running = True
 
-while True:
+  def run(self):
+    while self.running:
+      current = self.camera.frame().grayscale()
+      if not self.initial:
+        self.initial = current
+      self.window.show(current.sub(self.initial).threshold(self.threshold, mode=CV_THRESH_BINARY_INV))
+      self._handleKeyboardEvents()
 
-  current = camera.frame().grayscale().invert()
 
-  if not initial:
-    initial = current
+  def _handleKeyboardEvents(self):  
+    key = getKeyPressed()
+  
+    if key == '\x1b': # escape
+      self.window.destroy()
+      self.running = False
+  
+    elif key == ' ':
+      self.initial = False
+    
+    elif key == '+':
+      self.threshold += 10
+      print 'Threshold:', self.threshold
+  
+    elif key == '-':
+      self.threshold -= 10
+      print 'Threshold:', self.threshold
 
-  window.show(current.sub(initial).threshold(20, mode=CV_THRESH_BINARY_INV))
-
-  if escape_pressed():
-    window.destroy()
-    break
+if __name__ == '__main__':
+  FingerTracking().run()
