@@ -24,8 +24,6 @@ class Camera:
 
 class Image:
 
-
-  
   def __init__(self, image):
     self.image = image
     self.size = cvSize(image.width, image.height)
@@ -34,8 +32,9 @@ class Image:
     if self and self.image:
       cvReleaseImage(self.image)
   
-  def setColor(self,r,g,b):
-    cvSet(self.image, cvScalar(r,g,b))    
+  def fill(self,r,g,b):
+    cvSet(self.image, cvScalar(r, g, b))
+    return self
       
   def grayscale(self, channels=1):
     result = cvCreateImage(self.size, self.image.depth, channels)
@@ -78,7 +77,6 @@ class Image:
   def nand(self, anotherImage, channels=1):
     return self._not(self.image)._and(anotherImage)
     
-    
   #Francisco: Trying some color filtering  
   def filterColorUsingRGB(self, channels=1):  
     #compute which pixels are in the wanted range
@@ -99,7 +97,7 @@ class Image:
     
     return Image(hsvImage)
     
-        # compute which pixels are in the wanted range
+    # compute which pixels are in the wanted range
     # ranges for the limitation of the histogram
     vmin = 10
     vmax = 256
@@ -114,7 +112,16 @@ class Image:
 def getKeyPressed(wait=10):
   return cvWaitKey(wait)
   
-def createImage(size, depth, channels=1):
+def createImage(size, depth=IPL_DEPTH_8U, channels=1):
   return Image(cvCreateImage(size, depth, channels))
-    
+
+def createBlueImage(size):
+  return createImage(size, channels=3).fill(255,0,0)
+
+def createGreenImage(size):
+  return createImage(size, channels=3).fill(0,255,0)
+
+def createRedImage(size):
+  return createImage(size, channels=3).fill(0,0,255)
+
 cvStartWindowThread()    
