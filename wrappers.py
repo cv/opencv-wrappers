@@ -35,7 +35,7 @@ class Image:
       cvReleaseImage(self.image)
   
   def setColor(self,r,g,b):
-    cvSet(self.image, cvScalar(r,g,b))    
+    cvSet(self.image, cvScalar(r,g,b,0))    
       
   def grayscale(self, channels=1):
     result = cvCreateImage(self.size, self.image.depth, channels)
@@ -77,39 +77,6 @@ class Image:
     
   def nand(self, anotherImage, channels=1):
     return self._not(self.image)._and(anotherImage)
-    
-    
-  #Francisco: Trying some color filtering  
-  def filterColorUsingRGB(self, channels=1):  
-    #compute which pixels are in the wanted range
-    # ranges for the limitation of the histogram
-    
-    rgb_min = CV_RGB(100, 255, 100);
-    rgb_max = CV_RGB(0, 0, 0)
-    result = cvCreateImage(self.size, self.image.depth, channels)
-    cvInRangeS (self.image, rgb_min, rgb_max, result)
-    
-    return Image(result)
-      
-  #Francisco: Trying some color filtering  
-  def filterColorUsingHSV(self, channels=1):  
-    # compute the hsv version of the image 
-    hsvImage = cvCreateImage(self.size, self.image.depth, 3)
-    cvCvtColor (self.image, hsvImage, cv.CV_BGR2HSV)
-    
-    return Image(hsvImage)
-    
-        # compute which pixels are in the wanted range
-    # ranges for the limitation of the histogram
-    vmin = 10
-    vmax = 256
-    smin = 30
-    hsv_min = cvScalar (0, smin, vmin, 0)
-    hsv_max = cvScalar (180, 256, vmax, 0)
-    result = cvCreateImage(self.size, self.image.depth, channels)
-    cvInRangeS (hsvImage, hsv_min, hsv_max, result)
-    
-    return Image(result)
     
 def getKeyPressed(wait=10):
   return cvWaitKey(wait)
