@@ -5,6 +5,6 @@ window = Window()
 
 while True:
   window.show(camera.frame())
-  if escape_pressed():
+  if getKeyPressed() == '\x1b': # escape
     window.destroy()
     break
