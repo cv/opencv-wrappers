@@ -124,4 +124,13 @@ def createGreenImage(size):
 def createRedImage(size):
   return createImage(size, channels=3).fill(0,0,255)
 
+def createYellowImage(size):
+  return createImage(size, channels=3).fill(0,255,255)
+
+def createFuchsiaImage(size):
+  return createImage(size, channels=3).fill(255,0,255)
+
+def createCyanImage(size):
+  return createImage(size, channels=3).fill(255,255,0)
+
 cvStartWindowThread()    

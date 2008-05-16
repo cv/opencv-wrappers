@@ -22,19 +22,37 @@ class ColorFiltering:
 
   def _handleKeyboardEvents(self):  
     key = getKeyPressed()
-  
+
+    size = cvSize(640,480)
+
+    r = createRedImage(size)
+    g = createGreenImage(size)
+    b = createBlueImage(size)
+    y = createYellowImage(size)
+    f = createFuchsiaImage(size)
+    c = createCyanImage(size)
+    
     if key == '\x1b': # escape
       self.window.destroy()
       self.running = False
 
-    elif key == 'g':
-      self.colour = createGreenImage(cvSize(640, 480))
+    elif key == '1':
+      self.colour = r
 
-    elif key == 'b':
-      self.colour = createBlueImage(cvSize(640, 480))
+    elif key == '2':
+      self.colour = g
 
-    elif key == 'r':
-      self.colour = createRedImage(cvSize(640, 480))
+    elif key == '3':
+      self.colour = b
+
+    elif key == '4':
+      self.colour = y
+
+    elif key == '5':
+      self.colour = f
+
+    elif key == '6':
+      self.colour = c
 
 if __name__ == '__main__':
   ColorFiltering().run()
